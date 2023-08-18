@@ -4,7 +4,7 @@
 - NodeJS V18
 - Python V3
 - Pip Python
-- Mariadb / mysql
+- Mariadb / Mysql
 
 # Install
 - Install NodeJS
@@ -28,7 +28,7 @@
     git clone https://github.com/gyulamester/whmcstraccarzap.git
     npm install
     npm update
-   
+    ```
 - configure for api connect to whmcs database
     nano whmcs/config.py
     ```
@@ -44,7 +44,16 @@
 
 # Run Service
 - Whatsapp BOT & API
- 
+start the application and scan the qr code
+```
+node index.js
+```
+to start the application automatically, install pm2
+
+to run the python applications to send the whmcs notifications, add the line in the contab
+traccar notifications, just add the notifications to traccar, send by sms
+
+
 # Endpoint
 - API Endpoint
     ```
@@ -57,3 +66,7 @@
     phone (required)
     message (required)
     ```
+
+    # Extras
+
+  for whmcs to communicate with traccar, download the folder corresponding to the traccar version, and save it in the corresponding whmcs folder
