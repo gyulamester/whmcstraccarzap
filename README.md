@@ -53,6 +53,11 @@ to start the application automatically, install pm2
 to run the python applications to send the whmcs notifications, add the line in the contab
 traccar notifications, just add the notifications to traccar, send by sms
 
+# Contrab run py example
+
+MM HH   * * *   root    /usr/bin/python3 .../whmcs/invoice_unpaid.py
+MM HH   * * *   root    /usr/bin/python3 .../whmcs/invoice_duedate.py
+MM HH   * * *   root    /usr/bin/python3 .../whmcs/invoice_paid.py
 
 # Endpoint
 - API Endpoint
