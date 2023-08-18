@@ -14,7 +14,7 @@ for x in resultNewTicket:
     for user in resultUser:
         firstName = user[2]
         lastName = user[3]
-        phone = user[12].replace('.', '').replace('-', '')
+        phone = user[12].replace('.', '').replace('-', '').replace(' ', '')
         ticketID = x[1]
         ticketTitle = x[12]
         messageToSend = template_message.new_ticket.format(firstName = firstName,lastName = lastName,phone = phone, ticketID = ticketID, ticketTitle = ticketTitle)
