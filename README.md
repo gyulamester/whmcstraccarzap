@@ -77,10 +77,11 @@ MM HH   * * *   root    /usr/bin/python3 .../whmcs/invoice_paid.py
   for whmcs to communicate with traccar, download the folder corresponding to the traccar version, and save it in the corresponding whmcs folder
 
 # config traccar.xml notification whatszap
-
+```
    <entry key='notificator.types'>sms</entry>
 	 <entry key='notificator.sms.manager.class'>org.traccar.sms.HttpSmsClient</entry>
    <entry key='sms.http.url'>http://127.0.0.1:8080/api/send</entry>
    <entry key='sms.http.template'>
     {"phone": "{phone}","message": "{message}"}
    </entry>
+```
