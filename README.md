@@ -25,26 +25,34 @@ apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-
 
 # Clone repository and Install Library
 
+git clone https://github.com/gyulamester/whmcstraccarzap.git
 npm install
+npm update
 
-configure the file > nano whmcs/config.py
-to connect to whmcs database
+# configure the file 
+nano whmcs/config.py
+//to connect to whmcs database
 
-configure the template for your style and language >  nano whmcs/template_message.py
+# configure the template for your style and language
+ nano whmcs/template_message.py
 
 # configure traccar.xml for sending notifications
     <entry key='notificator.types'>sms</entry>
-	  <entry key='notificator.sms.manager.class'>org.traccar.sms.HttpSmsClient</entry>
+    <entry key='notificator.sms.manager.class'>org.traccar.sms.HttpSmsClient</entry>
     <entry key='sms.http.url'>http://IP VPS CURRENT PROJECT:8080/api/send</entry>
     <entry key='sms.http.template'>
     {"phone": "{phone}","message": "{message}"}
     </entry>
 
-
-run index.js > node inde.js
+# run application
+node index.js
 for automatic start install pm2
 
 I scanned the qr code and mirrored it with your whatsapp
+
+# additional traccar+whmcs modules in traccar versions 4 and 5
+
+download and copy to whmcs /modules/servers folder
 
  
 
