@@ -1,62 +1,124 @@
-# Module Traccar for whmcs 
-# Api whatsapp notifications traccar and whmcs
+# Introduction
+## Changelog
+- 30/03/2023 Update unpaid invoice from date to create date, so every invoice generate its will send to customer. important update !
+- 06/08/2023 Add new ticket & reply ticket notification to whatsapp client
+
+## Features
+- [OK] API Kirim Pesan ke Nomor
+- [OK] Auto Response / BOT
+- [OK] WHMCS Billing Alert
+    - Invoice Terbit
+    - Invoice Paid
+    - Invoice DueDate
+    - Last Notification 1day Before Terminate
+    - Ticket notification to user
 
 # Requirements
 - NodeJS V18
 - Python V3
 - Pip Python
-- Mariadb or MySQL
+- Mariadb SQL Server
 
-# Install NodeJS 
+# Install
+- Install NodeJS 
+    ```
+    https://nodejs.org/en/download/
+    ```
+- Install Python3 PIP & dependency (Ubuntu)
+    ```
+    apt install python3-pip
+    pip install mysql-connector-python
+    ```
+- Clone repository and Install Library
+    ```
+    git clone git@github.com:Intprism-Technology/Whatsapp-WHMCS.git
+    cd Whatsapp-WHMCS
+    npm install
+    npm update
+    ```
+- Konfigurasi DB MySQL
+    ```
+    nano whmcs/config.py
+    ```
+    edit baris berikut
+    ```
+    host_db = ''
+    name_db = ''
+    user_db = ''
+    pass_db = ''
+    ```
+- Konfigurasi template pesan notifikasi WHMCS
+    ```
+    nano whmcs/template_message.py
+    ```
+    template variabel
+    ```
+    # Nama Depan: {firstName}
+    # Nama Belakang: {lastName}
+    # Nomor HP: {phone}
+    # Nomor Invoice: {invoiceNumber}
+    # Due Date: {duedate}
+    # Total Tagihan: {duetotal}
+    # Tiket ID: {ticketID}
+    # Tiket title: {ticketTitle}
 
-- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh
-- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-- source ~/.bashrc
-- nvm list-remote
-- nvm install v18.17.1
- 
-# Install Python3 PIP & dependency (Ubuntu)
+    invoice_unpaid = "Halo, *{firstName} {lastName}*"
+    invoice_paid = "Halo, *{firstName} {lastName}*"
+    invoice_duedate = "Halo, *{firstName} {lastName}*"
+    invoice_comingTerminate = "Halo, *{firstName} {lastName}*"
+    new_ticket = "Halo, *{firstName} {lastName}*
+    reply_ticket = "Halo, *{firstName} {lastName}*
+    ```
+- Login Whatsapp
+    sebagai contoh, instalasi di path /var/www/Whatsapp-WHMCS
+    ```
+    /usr/local/bin/node /var/www/Whatsapp-WHMCS/index.js
+    ```
+    - scan qr hingga muncul success pairing
+    - exit program / CTRL + C
+# Run Service
+- Whatsapp BOT & API
+    - edit cron
+    ```
+    @reboot sleep 5 && /usr/local/bin/node /var/www/Whatsapp-WHMCS/index.js &
+    ```
+    - jalankan service ulang 
+    ```
+    /usr/local/bin/node /var/www/Whatsapp-WHMCS/index.js &
+    ```
+- Service Kirim Invoice WHMCS Notifikasi (tiap hari, jam 8 pagi) dan notifikasi invoice paid (tiap 5menit)
+    ```
+    */5 * * * * cd /var/www/Whatsapp-WHMCS/whmcs && /usr/bin/python3 invoice_paid.py
+    0 8 * * * cd /var/www/Whatsapp-WHMCS/whmcs && /usr/bin/python3 invoice_unpaid.py
+    0 8 * * * cd /var/www/Whatsapp-WHMCS/whmcs && /usr/bin/python3 invoice_duedate.py
+    0 8 * * * cd /var/www/Whatsapp-WHMCS/whmcs && /usr/bin/python3 invoice_comingTerminate.py
+    */5 * * * * cd /var/www/Whatsapp-WHMCS/whmcs && /usr/bin/python3 ticket.py
+    ```
+# Endpoint
+- API Endpoint
+    ```
+    <ip>:8080/api/send
+    ```
+    Type: POST
 
-apt install python3-pip
-pip install mysql-connector-python
-pip install requests
-apt install -y gconf-service libgbm-dev libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
-apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libxcomposite-dev libxdamage1 libxrandr2 libgbm-dev libasound2 libpango-1.0-0 libcairo2
+    Variable:
+    ```
+    phone (required)
+    message (required)
+    ```
+# Request Update
+Warga Diskusiwebhosting bisa request langsung melalui thread ))
 
-# Clone repository and Install Library
-
-git clone https://github.com/gyulamester/whmcstraccarzap.git
-npm install
-npm update
-
-# configure the file 
-nano whmcs/config.py
-//to connect to whmcs database
-
-# configure the template for your style and language
- nano whmcs/template_message.py
-
-# configure traccar.xml for sending notifications
-    <entry key='notificator.types'>sms</entry>
-    <entry key='notificator.sms.manager.class'>org.traccar.sms.HttpSmsClient</entry>
-    <entry key='sms.http.url'>http://IP VPS CURRENT PROJECT:8080/api/send</entry>
-    <entry key='sms.http.template'>
-    {"phone": "{phone}","message": "{message}"}
-    </entry>
-
-# run application
-node index.js
-for automatic start install pm2
-
-I scanned the qr code and mirrored it with your whatsapp
-
-# additional traccar+whmcs modules in traccar versions 4 and 5
-
-download and copy to whmcs /modules/servers folder
-
- 
+    https://www.diskusiwebhosting.com/threads/whatsapp-api-dan-notifikasi-whmcs.38061/
 
 
+# Support Developer
+- - - - - - - - - - - - - - - -
+BCA : 3151176150
 
+BCA Digital: 001339859866
 
-references: Intprism-Technology/Whatsapp-WHMCS / pedroslopez/whatsapp-web.js/
+Jago : 506512637291
+
+Paypal: info@intprism.com
+- - - - - - - - - - - - - - - -
