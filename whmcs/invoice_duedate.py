@@ -16,7 +16,7 @@ for x in resultInvoice:
     for user in resultUser:
         firstName = user[2]
         lastName = user[3]
-        phone = user[12].replace('.', '').replace('-', '')
+        phone = user[12].replace('.', '').replace('-', '').replace(' ', '')
         invoiceNumber = x[2]
         if invoiceNumber == "":
             invoiceNumber = x[0]
