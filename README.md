@@ -7,7 +7,8 @@
 - Mariadb / mysql
 
 # Install
-- Install NodeJS 
+- Install NodeJS
+  ```
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
   source ~/.bashrc
@@ -15,6 +16,7 @@
   nvm install v18.17.1
   
 - Install Python3 PIP & dependency (Ubuntu)
+  ```
     apt install python3-pip
     pip install mysql-connector-python
     pip install requests
